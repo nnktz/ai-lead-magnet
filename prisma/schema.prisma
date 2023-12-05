@@ -16,20 +16,20 @@ model LeadMagnet {
   userId                  String
   name                    String
   status                  String
-  slug                    String
+  slug                    String?
   publishedTitle          String?
-  draftTitle               String @db.Text
+  draftTitle              String @db.Text
   publishedSubtitle       String @db.Text
-  draftSubtitle            String @db.Text
+  draftSubtitle           String @db.Text
   publishedPrompt         String @db.Text
-  draftPrompt              String @db.Text
+  draftPrompt             String @db.Text
   publishedBody           String @db.Text
-  draftBody                String @db.Text
+  draftBody               String @db.Text
   publishedFirstQuestion  String @db.Text
-  draftFirstQuestion       String @db.Text
+  draftFirstQuestion      String @db.Text
   publishedEmailCapture   String @db.Text
-  draftEmailCapture        String @db.Text
-  pulishedAt              DateTime? @db.DateTime()
+  draftEmailCapture       String @db.Text
+  publishedAt             DateTime? @db.DateTime()
   pageViews               Int @default(0)
 
   leads                   Lead[]

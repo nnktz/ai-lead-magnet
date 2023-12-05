@@ -13,7 +13,8 @@ type LeadMagnetEditorParams = {
 }
 
 const LeadMagnetEditorPage = async ({ params }: LeadMagnetEditorParams) => {
-  const leadMagnetId = params.leadMagnetId.length > 0 ? params.leadMagnetId[0] : null
+  const leadMagnetId =
+    (params?.leadMagnetId as string[])?.length > 0 ? params.leadMagnetId[0] : null
 
   let leadMagnet: LeadMagnet | null = null
 

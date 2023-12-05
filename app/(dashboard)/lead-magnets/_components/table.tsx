@@ -47,7 +47,11 @@ export const Table = ({ leadMagnets, leads }: TableProps) => {
       <TableBody>
         {leadMagnets.map((leadMagnet) => (
           <TableRow key={leadMagnet.id}>
-            <TableCell>{leadMagnet.name}</TableCell>
+            <TableCell>
+              <Link href={`/lead-magnet-editor/${leadMagnet.id}`} className="text-lg">
+                {leadMagnet.name}
+              </Link>
+            </TableCell>
             <TableCell>{leadMagnet.pageViews}</TableCell>
             <TableCell>{getLeadsForLeadMagnet(leadMagnet.id)}</TableCell>
             <TableCell>{getConversationRate(leadMagnet.id, leadMagnet.pageViews)}%</TableCell>

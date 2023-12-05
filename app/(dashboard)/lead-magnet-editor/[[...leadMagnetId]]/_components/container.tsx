@@ -3,7 +3,7 @@
 import { LeadMagnet } from '@prisma/client'
 import { useSession } from '@clerk/nextjs'
 
-import { LeadMagnetEditorContextProvider } from '@/context/lead-magenet-editor-context'
+import { LeadMagnetEditorContextProvider } from '@/context/lead-magnet-editor-context'
 
 import { Editor } from './editor'
 import { LoadingScreen } from '@/components/loading-screen'

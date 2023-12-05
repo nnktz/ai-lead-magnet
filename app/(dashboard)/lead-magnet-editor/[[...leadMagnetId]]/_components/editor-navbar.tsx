@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Check, Pencil, X } from 'lucide-react'
 
-import { useLeadMagnetEditorContext } from '@/context/lead-magenet-editor-context'
+import { useLeadMagnetEditorContext } from '@/context/lead-magnet-editor-context'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -24,9 +24,7 @@ export const EditorNavbar = () => {
 
   const saveName = async () => {
     try {
-      await save().then(() => {
-        toast.success('Saved.')
-      })
+      await save()
     } catch (error) {
       toast.error('Error saving name. Please try again.')
     } finally {
@@ -41,9 +39,7 @@ export const EditorNavbar = () => {
   const handleSave = async () => {
     setSaving(true)
     try {
-      await save().then(() => {
-        toast.success('Saved.')
-      })
+      await save()
     } catch (error) {
       toast.error('Error saving. Please try again.')
     } finally {
@@ -54,9 +50,7 @@ export const EditorNavbar = () => {
   const handlePublish = async () => {
     setPublishing(true)
     try {
-      await publish().then(() => {
-        toast.success('Published.')
-      })
+      await publish()
     } catch (error) {
       toast.error('Error publishing. Please try again.')
     } finally {
@@ -67,9 +61,7 @@ export const EditorNavbar = () => {
   const handleUnpublish = async () => {
     setUnpublishing(true)
     try {
-      await unpublish().then(() => {
-        toast.success('Unpublished.')
-      })
+      await unpublish()
     } catch (error) {
       toast.error('Error unpublishing. Please try again.')
     } finally {
@@ -80,9 +72,7 @@ export const EditorNavbar = () => {
   const handleDelete = async () => {
     setDeleting(true)
     try {
-      await remove().then(() => {
-        toast.success('Deleted.')
-      })
+      await remove().then(() => router.push('/lead-magnets'))
     } catch (error) {
       toast.error('Error deleting. Please try again.')
     } finally {

@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { EditorNavbar } from './editor-navbar'
 import { ContentEditor } from './content-editor'
+import { EditorSidebar } from './editor-sidebar'
 
 export type LeadMagnetSections = 'content' | 'prompt' | 'email' | 'profile' | 'settings'
 
@@ -12,15 +13,20 @@ export const Editor = () => {
   const [selectedEditor, setSelectedEditor] = useState<LeadMagnetSections>('content')
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-y-hidden">
+    <div
+      className="flex h-screen w-full flex-col overflow-y-hidden"
+      style={{
+        height: 'calc(100vh- 66px)',
+      }}
+    >
       <EditorNavbar />
 
       <div className="flex h-full flex-row">
-        {/* <EditorSidebar
+        <EditorSidebar
           isSidebarCollapsed={isSidebarCollapsed}
           setIsSidebarCollapsed={setIsSidebarCollapsed}
-          setSelectedEditor={selectedEditor}
-        /> */}
+          setSelectedEditor={setSelectedEditor}
+        />
 
         <div className="h-full flex-grow">
           {selectedEditor === 'content' && <ContentEditor />}

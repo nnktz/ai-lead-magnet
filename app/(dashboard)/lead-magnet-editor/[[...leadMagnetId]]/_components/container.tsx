@@ -4,6 +4,7 @@ import { LeadMagnet } from '@prisma/client'
 import { useSession } from '@clerk/nextjs'
 
 import { LeadMagnetEditorContextProvider } from '@/context/lead-magnet-editor-context'
+import { ProfileEditorProvider } from '@/context/profile-editor-context'
 
 import { Editor } from './editor'
 import { LoadingScreen } from '@/components/loading-screen'
@@ -17,7 +18,9 @@ export const Container = ({ leadMagnet }: { leadMagnet: LeadMagnet }) => {
 
   return (
     <LeadMagnetEditorContextProvider leadMagnet={leadMagnet}>
-      <Editor />
+      <ProfileEditorProvider>
+        <Editor />
+      </ProfileEditorProvider>
     </LeadMagnetEditorContextProvider>
   )
 }

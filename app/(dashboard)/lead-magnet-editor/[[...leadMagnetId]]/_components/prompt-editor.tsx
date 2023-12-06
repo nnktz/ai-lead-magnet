@@ -1,6 +1,6 @@
 import { useLeadMagnetEditorContext } from '@/context/lead-magnet-editor-context'
 
-import { AIChatContainer } from './ai-chat-container'
+import { AIChatContainer } from '@/components/ai-chat-container'
 
 export const PromptEditor = () => {
   const { editedLeadMagnet, setEditedLeadMagnet } = useLeadMagnetEditorContext()

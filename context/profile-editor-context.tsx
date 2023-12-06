@@ -66,8 +66,9 @@ export const ProfileEditorProvider = ({ children }: { children: ReactNode }) => 
 
     if (updateProfile) {
       setEditedProfile(updateProfile)
+      toast.success('Profile saved successfully.')
     } else {
-      toast.error('Failed to save profile')
+      toast.error('Failed to save profile.')
     }
   }
 

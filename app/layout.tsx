@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toast-provider'
 
 import './globals.css'
+import '@uploadthing/react/styles.css'
 
 const inter = Inter({ subsets: ['latin'] })
 

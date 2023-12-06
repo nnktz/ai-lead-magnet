@@ -10,11 +10,20 @@ import { useLeadMagnetEditorContext } from '@/context/lead-magnet-editor-context
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useProfileEditorContext } from '@/context/profile-editor-context'
 
 export const EditorNavbar = () => {
   const router = useRouter()
-  const { editedLeadMagnet, setEditedLeadMagnet, save, publish, unpublish, remove } =
-    useLeadMagnetEditorContext()
+  const {
+    editedLeadMagnet,
+    setEditedLeadMagnet,
+    save: saveLeadMagnet,
+    publish,
+    unpublish,
+    remove,
+  } = useLeadMagnetEditorContext()
+
+  const { save: saveProfile } = useProfileEditorContext()
 
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -24,7 +33,7 @@ export const EditorNavbar = () => {
 
   const saveName = async () => {
     try {
-      await save()
+      await saveLeadMagnet()
     } catch (error) {
       toast.error('Error saving name. Please try again.')
     } finally {
@@ -39,7 +48,8 @@ export const EditorNavbar = () => {
   const handleSave = async () => {
     setSaving(true)
     try {
-      await save()
+      await saveLeadMagnet()
+      await saveProfile()
     } catch (error) {
       toast.error('Error saving. Please try again.')
     } finally {

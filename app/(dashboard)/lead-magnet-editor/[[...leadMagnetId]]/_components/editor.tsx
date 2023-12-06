@@ -7,6 +7,7 @@ import { ContentEditor } from './content-editor'
 import { EditorSidebar } from './editor-sidebar'
 import { PromptEditor } from './prompt-editor'
 import { EmailEditor } from './email-editor'
+import { ProfileEditor } from './profile-editor'
 
 export type LeadMagnetSections = 'content' | 'prompt' | 'email' | 'profile' | 'settings'
 
@@ -34,7 +35,7 @@ export const Editor = () => {
           {selectedEditor === 'content' && <ContentEditor />}
           {selectedEditor === 'prompt' && <PromptEditor />}
           {selectedEditor === 'email' && <EmailEditor />}
-          {/* {selectedEditor === 'profile' && <ProfileEditor />} */}
+          {selectedEditor === 'profile' && <ProfileEditor />}
           {/* {selectedEditor === 'settings' && <Settings />} */}
         </div>
       </div>

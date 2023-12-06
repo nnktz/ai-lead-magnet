@@ -33,6 +33,28 @@ export const PromptEditor = () => {
             className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow"
           />
         </div>
+
+        <div className="mb-4">
+          <label htmlFor="" className="mb-2 block to-gray-700 text-sm font-bold">
+            First Question in Chat
+          </label>
+
+          <textarea
+            name=""
+            id=""
+            cols={30}
+            rows={2}
+            value={editedLeadMagnet.draftFirstQuestion}
+            placeholder="What is the subtitle of your lead magnet?"
+            onChange={(e) =>
+              setEditedLeadMagnet((prev) => ({
+                ...prev,
+                draftFirstQuestion: e.target.value,
+              }))
+            }
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow"
+          />
+        </div>
       </div>
 
       <div className="ai-dotted-pattern flex w-1/2 flex-col">

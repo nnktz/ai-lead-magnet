@@ -12,59 +12,72 @@ generator client {
 }
 
 model LeadMagnet {
-  id                      String @id @default(uuid())
+  id                      String    @id @default(uuid())
   userId                  String
   name                    String
   status                  String
   slug                    String?
   publishedTitle          String?
-  draftTitle              String @db.Text
-  publishedSubtitle       String @db.Text
-  draftSubtitle           String @db.Text
-  publishedPrompt         String @db.Text
-  draftPrompt             String @db.Text
-  publishedBody           String @db.Text
-  draftBody               String @db.Text
-  publishedFirstQuestion  String @db.Text
-  draftFirstQuestion      String @db.Text
-  publishedEmailCapture   String @db.Text
-  draftEmailCapture       String @db.Text
+  draftTitle              String    @db.Text
+  publishedSubtitle       String    @db.Text
+  draftSubtitle           String    @db.Text
+  publishedPrompt         String    @db.Text
+  draftPrompt             String    @db.Text
+  publishedBody           String    @db.Text
+  draftBody               String    @db.Text
+  publishedFirstQuestion  String    @db.Text
+  draftFirstQuestion      String    @db.Text
+  publishedEmailCapture   String    @db.Text
+  draftEmailCapture       String    @db.Text
   publishedAt             DateTime? @db.DateTime()
-  pageViews               Int @default(0)
+  pageViews               Int       @default(0)
 
   leads                   Lead[]
 
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 
   @@unique([userId, slug])
 }
 
 model Lead {
-  id            String @id @default(uuid())
+  id            String      @id @default(uuid())
   userId        String
   name          String
   email         String
 
   leadMagnetId  String
-  leadMagnet    LeadMagnet @relation(fields: [leadMagnetId], references: [id], onDelete: Cascade)
+  leadMagnet    LeadMagnet  @relation(fields: [leadMagnetId], references: [id], onDelete: Cascade)
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   @@index([leadMagnetId])
   @@index([userId])
 }
 
 model Profile {
-  id              String @id @default(uuid())
-  userId          String @unique
+  id              String    @id @default(uuid())
+  userId          String    @unique
   title           String
-  description     String @db.Text
-  profileImageUrl String @db.Text
+  description     String    @db.Text
+  profileImageUrl String    @db.Text
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@index([userId])
+}
+
+model Account {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  email      String   @unique
+  username   String   @unique
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([email])
 }

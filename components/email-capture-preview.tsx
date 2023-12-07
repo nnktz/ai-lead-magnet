@@ -2,18 +2,22 @@
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { FormEvent, useState } from 'react'
+import { Dispatch, FormEvent, SetStateAction, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
 type EmailCapturePreviewProps = {
   leadMagnetId: string
   emailCapturePrompt: string
+  setHasCaptureUserInfo?: Dispatch<SetStateAction<boolean>>
+  setShowEmailCaptureModal?: Dispatch<SetStateAction<boolean>>
 }
 
 export const EmailCapturePreview = ({
   leadMagnetId,
   emailCapturePrompt,
+  setHasCaptureUserInfo,
+  setShowEmailCaptureModal,
 }: EmailCapturePreviewProps) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -32,6 +36,8 @@ export const EmailCapturePreview = ({
         })
         .then(() => {
           toast.success('You have successfully signed up!')
+          setHasCaptureUserInfo!(true)
+          setShowEmailCaptureModal!(false)
         })
     } catch (error) {
       toast.error('Something went wrong. Please try again.')

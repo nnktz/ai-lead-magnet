@@ -2,9 +2,11 @@
 
 import RiseLoader from 'react-spinners/RingLoader'
 import { useChat } from 'ai/react'
-import { FormEvent, useEffect } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
+
+import { EmailCaptureModal } from './email-capture-modal'
 
 type AIChatContainerProps = {
   leadMagnetId: string
@@ -21,6 +23,9 @@ export const AIChatContainer = ({
   leadMagnetId,
   prompt,
 }: AIChatContainerProps) => {
+  const [showEmailCaptureModal, setShowEmailCaptureModal] = useState(false)
+  const [hasCaptureUserInfo, setHasCaptureUserInfo] = useState(false)
+
   const {
     messages,
     handleSubmit: handleOpenAIChatSubmit,
@@ -45,7 +50,22 @@ export const AIChatContainer = ({
     ])
   }, [firstQuestion, prompt, setMessages])
 
+  const hasUserEnteredInfo = () => {
+    if (captureEmail && !hasCaptureUserInfo) {
+      setShowEmailCaptureModal(true)
+      return false
+    }
+
+    return true
+  }
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!hasUserEnteredInfo()) {
+      return
+    }
+
     handleOpenAIChatSubmit(e)
   }
 
@@ -99,6 +119,15 @@ export const AIChatContainer = ({
           {isLoading ? <RiseLoader color="white" size={4} /> : <span>Send</span>}
         </button>
       </form>
+
+      {showEmailCaptureModal && (
+        <EmailCaptureModal
+          emailCapturePrompt={emailCapturePrompt}
+          leadMagnetId={leadMagnetId}
+          setHasCaptureUserInfo={setHasCaptureUserInfo}
+          setShowEmailCaptureModal={setShowEmailCaptureModal}
+        />
+      )}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { prismaDb } from '@/lib/prismaDb'
-import { slugifyLeadMagnet } from '@/lib/utils'
 
 const leadMagnetUnpublishRequest = z.object({
   id: z.string({

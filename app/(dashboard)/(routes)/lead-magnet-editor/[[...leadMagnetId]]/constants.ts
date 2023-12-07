@@ -18,7 +18,7 @@ export const DEFAULT_LEAD_MAGNET: LeadMagnet = {
   createdAt: new Date(),
   updatedAt: new Date(),
   publishedAt: null,
-  slug: null,
+  slug: '',
   pageViews: 0,
   id: '',
   userId: '',

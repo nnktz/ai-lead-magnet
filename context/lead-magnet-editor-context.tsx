@@ -24,7 +24,7 @@ export const LeadMagnetEditorContextProvider = ({
   leadMagnet: LeadMagnet
 }) => {
   const { session } = useSession()
-  const { replace, push } = useRouter()
+  const router = useRouter()
 
   const [editedLeadMagnet, setEditedLeadMagnet] = useState<LeadMagnet>(leadMagnet)
 
@@ -45,8 +45,9 @@ export const LeadMagnetEditorContextProvider = ({
 
       if (response.data.data) {
         toast.success('Lead Magnet saved successfully.')
+        router.refresh()
       }
-    } catch (error) {
+    } catch (error: any) {
       toast.error('Failed to save Lead Magnet.')
     }
   }
@@ -58,7 +59,9 @@ export const LeadMagnetEditorContextProvider = ({
       })
 
       if (response.data.data) {
+        setEditedLeadMagnet(response.data.data)
         toast.success('Lead Magnet published successfully.')
+        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to publish Lead Magnet.')
@@ -72,7 +75,9 @@ export const LeadMagnetEditorContextProvider = ({
       })
 
       if (response.data.data) {
+        setEditedLeadMagnet(response.data.data)
         toast.success('Lead Magnet unpublished successfully.')
+        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to unpublish Lead Magnet.')
@@ -85,6 +90,7 @@ export const LeadMagnetEditorContextProvider = ({
 
       if (response.data.data) {
         toast.success('Lead Magnet deleted successfully.')
+        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to delete Lead Magnet.')

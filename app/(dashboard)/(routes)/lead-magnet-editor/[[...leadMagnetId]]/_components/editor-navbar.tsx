@@ -23,7 +23,7 @@ export const EditorNavbar = () => {
     remove,
   } = useLeadMagnetEditorContext()
 
-  const { save: saveProfile } = useProfileEditorContext()
+  const { save: saveProfile, account } = useProfileEditorContext()
 
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -90,6 +90,8 @@ export const EditorNavbar = () => {
     }
   }
 
+  console.log(editedLeadMagnet.status)
+
   return (
     <div className="flex w-full items-center justify-between border-b-[1px] border-solid border-gray-200 bg-white p-3 text-gray-600">
       <div className="flex flex-row items-center">
@@ -135,12 +137,16 @@ export const EditorNavbar = () => {
 
         {editedLeadMagnet.status === 'published' && (
           <>
-            <Button disabled={unpublishing} onClick={handleUnpublish}>
-              {unpublishing ? 'Unpublishing' : 'Unpublish'}
-            </Button>
-            {/* <Link href={`/lm/${account.username}/${editedLeadMagnet.slug}`}>
-            <Button>View Published</Button>
-            </Link> */}
+            {account && (
+              <>
+                <Button disabled={unpublishing} onClick={handleUnpublish}>
+                  {unpublishing ? 'Unpublishing' : 'Unpublish'}
+                </Button>
+                <Link href={`/lm/${account?.username}/${editedLeadMagnet.slug}`}>
+                  <Button variant={'outline'}>View Published</Button>
+                </Link>
+              </>
+            )}
           </>
         )}
 
@@ -148,9 +154,11 @@ export const EditorNavbar = () => {
           {saving ? 'Saving...' : 'Save'}
         </Button>
 
-        <Button disabled={publishing} onClick={handlePublish}>
-          {publishing ? 'Publishing' : 'Publish'}
-        </Button>
+        {editedLeadMagnet.status !== 'published' && (
+          <Button disabled={publishing} onClick={handlePublish}>
+            {publishing ? 'Publishing' : 'Publish'}
+          </Button>
+        )}
       </div>
     </div>
   )

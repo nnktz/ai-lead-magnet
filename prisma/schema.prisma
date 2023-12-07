@@ -17,7 +17,7 @@ model LeadMagnet {
   name                    String
   status                  String
   slug                    String?
-  publishedTitle          String?
+  publishedTitle          String?   @db.Text
   draftTitle              String    @db.Text
   publishedSubtitle       String    @db.Text
   draftSubtitle           String    @db.Text
@@ -29,7 +29,7 @@ model LeadMagnet {
   draftFirstQuestion      String    @db.Text
   publishedEmailCapture   String    @db.Text
   draftEmailCapture       String    @db.Text
-  publishedAt             DateTime? @db.DateTime()
+  publishedAt             DateTime? @db.DateTime
   pageViews               Int       @default(0)
 
   leads                   Lead[]

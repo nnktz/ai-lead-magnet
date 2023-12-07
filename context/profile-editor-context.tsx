@@ -1,6 +1,6 @@
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { Profile } from '@prisma/client'
+import { Account, Profile } from '@prisma/client'
 import {
   Dispatch,
   SetStateAction,
@@ -26,6 +26,7 @@ interface ProfileEditorContextState {
   editedProfile: Profile
   setEditedProfile: Dispatch<SetStateAction<Profile>>
   save: () => Promise<void>
+  account: Account | null
 }
 
 const ProfileEditorContext = createContext<ProfileEditorContextState | null>(null)
@@ -34,6 +35,7 @@ export const ProfileEditorProvider = ({ children }: { children: ReactNode }) => 
   const { userId } = useAuth()
 
   const [editedProfile, setEditedProfile] = useState<Profile>(DEFAULT_PROFILE)
+  const [account, setAccount] = useState<Account | null>(null)
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -55,6 +57,28 @@ export const ProfileEditorProvider = ({ children }: { children: ReactNode }) => 
     fetchProfile()
   }, [userId])
 
+  useEffect(() => {
+    const fetchAccount = async () => {
+      const response = await axios
+        .get('/api/account')
+        .then((res) => {
+          if (res.data) {
+            const retchedAccount = res.data.data
+            return retchedAccount
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          toast.error('Failed to fetch account.')
+          return null
+        })
+
+      setAccount(response)
+    }
+
+    fetchAccount()
+  }, [])
+
   const save = async () => {
     const response = await axios.request({
       method: editedProfile.id ? 'PUT' : 'POST',
@@ -73,7 +97,7 @@ export const ProfileEditorProvider = ({ children }: { children: ReactNode }) => 
   }
 
   return (
-    <ProfileEditorContext.Provider value={{ editedProfile, setEditedProfile, save }}>
+    <ProfileEditorContext.Provider value={{ editedProfile, setEditedProfile, save, account }}>
       {children}
     </ProfileEditorContext.Provider>
   )

@@ -1,3 +1,5 @@
+'use client'
+
 import RiseLoader from 'react-spinners/RingLoader'
 import { useChat } from 'ai/react'
 import { FormEvent, useEffect } from 'react'

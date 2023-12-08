@@ -33,7 +33,7 @@ export const EditorNavbar = () => {
 
   const saveName = async () => {
     try {
-      await saveLeadMagnet()
+      await saveLeadMagnet().then(() => router.refresh())
     } catch (error) {
       toast.error('Error saving name. Please try again.')
     } finally {
@@ -50,6 +50,7 @@ export const EditorNavbar = () => {
     try {
       await saveLeadMagnet()
       await saveProfile()
+      router.refresh()
     } catch (error) {
       toast.error('Error saving. Please try again.')
     } finally {
@@ -60,7 +61,7 @@ export const EditorNavbar = () => {
   const handlePublish = async () => {
     setPublishing(true)
     try {
-      await publish()
+      await publish().then(() => router.refresh())
     } catch (error) {
       toast.error('Error publishing. Please try again.')
     } finally {
@@ -71,7 +72,7 @@ export const EditorNavbar = () => {
   const handleUnpublish = async () => {
     setUnpublishing(true)
     try {
-      await unpublish()
+      await unpublish().then(() => router.refresh())
     } catch (error) {
       toast.error('Error unpublishing. Please try again.')
     } finally {
@@ -82,15 +83,16 @@ export const EditorNavbar = () => {
   const handleDelete = async () => {
     setDeleting(true)
     try {
-      await remove().then(() => router.push('/lead-magnets'))
+      await remove().then(() => {
+        router.push('/lead-magnets')
+        router.refresh()
+      })
     } catch (error) {
       toast.error('Error deleting. Please try again.')
     } finally {
       setDeleting(false)
     }
   }
-
-  console.log(editedLeadMagnet.status)
 
   return (
     <div className="flex w-full items-center justify-between border-b-[1px] border-solid border-gray-200 bg-white p-3 text-gray-600">

@@ -34,15 +34,26 @@ const AccountPage = async () => {
     return account
   }
 
+  const fetchSubscription = async (userId: string) => {
+    return await prismaDb.subscription.findUnique({
+      where: {
+        userId,
+      },
+    })
+  }
+
   const { userId } = auth()
 
   if (!userId) {
     return redirect('/sign-in')
   }
 
-  const account = await fetchAccount(userId)
+  const [account, subscription] = await Promise.all([
+    fetchAccount(userId),
+    fetchSubscription(userId),
+  ])
 
-  return <AccountContainer account={account} />
+  return <AccountContainer account={account} subscription={subscription} />
 }
 
 export default AccountPage

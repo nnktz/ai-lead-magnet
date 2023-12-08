@@ -2,18 +2,31 @@
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { useState } from 'react'
-import { Account } from '@prisma/client'
+import { useEffect, useState } from 'react'
+import { Account, Subscription } from '@prisma/client'
 import { useRouter } from 'next/navigation'
+
+import { getPayingStatus } from '@/utils/get-paying-status'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export const AccountContainer = ({ account }: { account: Account }) => {
+type AccountContainerProps = {
+  account: Account
+  subscription: Subscription | null
+}
+
+export const AccountContainer = ({ account, subscription }: AccountContainerProps) => {
   const router = useRouter()
 
   const [username, setUsername] = useState(account.username)
   const [isSaving, setIsSaving] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isActive, setIsActive] = useState(getPayingStatus(subscription))
+
+  useEffect(() => {
+    setIsActive(getPayingStatus(subscription))
+  }, [subscription])
 
   const updateUsername = async () => {
     setIsSaving(true)
@@ -38,6 +51,23 @@ export const AccountContainer = ({ account }: { account: Account }) => {
       .finally(() => {
         setIsSaving(false)
       })
+  }
+
+  const handleStripe = async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get('/api/stripe')
+
+      if (response.data.url) {
+        router.push(response.data.url)
+      } else {
+        toast.error('Something went wrong. Please try again.')
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -67,6 +97,19 @@ export const AccountContainer = ({ account }: { account: Account }) => {
           {isSaving ? 'Saving...' : 'Save'}
         </Button>
       </div>
+
+      <hr />
+
+      <h2 className="text-xl text-gray-700">Subscription</h2>
+      <div className="flex flex-row gap-x-2">
+        <p className="font-semibold text-gray-700">Status:</p>
+
+        <p className="text-gray-700">{isActive ? 'Active' : 'Inactive'}</p>
+      </div>
+
+      <Button disabled={isLoading} onClick={handleStripe} variant={'outline'} className="w-fit">
+        {isActive ? 'Manage Subscription' : <>{isLoading ? 'Upgrading...' : 'Upgrade to Pro'}</>}
+      </Button>
     </div>
   )
 }

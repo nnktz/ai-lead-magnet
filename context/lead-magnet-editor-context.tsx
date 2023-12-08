@@ -2,7 +2,6 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useSession } from '@clerk/nextjs'
 import { LeadMagnet } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, createContext, ReactNode, useState, useContext } from 'react'
 
 interface LeadMagnetEditorContextState {
@@ -24,7 +23,6 @@ export const LeadMagnetEditorContextProvider = ({
   leadMagnet: LeadMagnet
 }) => {
   const { session } = useSession()
-  const router = useRouter()
 
   const [editedLeadMagnet, setEditedLeadMagnet] = useState<LeadMagnet>(leadMagnet)
 
@@ -45,7 +43,6 @@ export const LeadMagnetEditorContextProvider = ({
 
       if (response.data.data) {
         toast.success('Lead Magnet saved successfully.')
-        router.refresh()
       }
     } catch (error: any) {
       toast.error('Failed to save Lead Magnet.')
@@ -61,7 +58,6 @@ export const LeadMagnetEditorContextProvider = ({
       if (response.data.data) {
         setEditedLeadMagnet(response.data.data)
         toast.success('Lead Magnet published successfully.')
-        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to publish Lead Magnet.')
@@ -77,7 +73,6 @@ export const LeadMagnetEditorContextProvider = ({
       if (response.data.data) {
         setEditedLeadMagnet(response.data.data)
         toast.success('Lead Magnet unpublished successfully.')
-        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to unpublish Lead Magnet.')
@@ -88,9 +83,8 @@ export const LeadMagnetEditorContextProvider = ({
     try {
       const response = await axios.delete(`/api/lead-magnet?id=${editedLeadMagnet.id}`)
 
-      if (response.data.data) {
+      if (response.data.success === true) {
         toast.success('Lead Magnet deleted successfully.')
-        router.refresh()
       }
     } catch (error) {
       toast.error('Failed to delete Lead Magnet.')

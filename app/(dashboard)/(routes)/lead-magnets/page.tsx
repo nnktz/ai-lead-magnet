@@ -5,6 +5,7 @@ import { getLeadMagnets } from '@/actions/get-lead-magnets'
 import { getLeads } from '@/actions/get-leads'
 
 import { Container } from './_components/container'
+import { getSubscription } from '@/actions/get-subscription'
 
 const LeadMagnetsPage = async () => {
   const { userId } = auth()
@@ -15,10 +16,15 @@ const LeadMagnetsPage = async () => {
 
   const leadMagnetsRequest = getLeadMagnets(userId)
   const leadsRequest = getLeads(userId)
+  const subscriptionRequest = getSubscription(userId)
 
-  const [leadMagnets, leads] = await Promise.all([leadMagnetsRequest, leadsRequest])
+  const [leadMagnets, leads, subscription] = await Promise.all([
+    leadMagnetsRequest,
+    leadsRequest,
+    subscriptionRequest,
+  ])
 
-  return <Container leadMagnets={leadMagnets} leads={leads} />
+  return <Container leadMagnets={leadMagnets} leads={leads} subscription={subscription} />
 }
 
 export default LeadMagnetsPage

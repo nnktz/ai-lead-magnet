@@ -13,6 +13,65 @@ interface LeadMagnetPageProps {
   }
 }
 
+export const generateMetadata = async ({ params }: LeadMagnetPageProps) => {
+  const { username, leadMagnetSlug } = params
+
+  if (!username || !leadMagnetSlug) {
+    return <NotFound returnUrl="/" />
+  }
+
+  const account = await prismaDb.account.findUnique({
+    where: {
+      username,
+    },
+  })
+
+  let title = 'LeadConvert.ai'
+  let description =
+    'LeadConvert helps creators turn regular content into interactive AI experiences, effortlessly capturing leads, and nurturing them towards your digital products or courses.'
+  let openGraphImage
+
+  if (account) {
+    const leadMagnet = await prismaDb.leadMagnet.findFirst({
+      where: {
+        userId: account.userId,
+        slug: params.leadMagnetSlug,
+        status: 'published',
+      },
+    })
+
+    if (leadMagnet) {
+      if (leadMagnet.publishedTitle) {
+        title = leadMagnet.publishedTitle
+      }
+      description = leadMagnet.publishedSubtitle
+
+      openGraphImage = {
+        url: `https://image.thum.io/get/auth/${
+          process.env.SREENSHOT_ACCESS_KEY ?? ''
+        }/width/1200/crop/700/https:leadconvert.ai/lm/${account.username}/${leadMagnet.slug}`,
+        width: 4096,
+        height: 4096,
+        alt: 'lead magnet review',
+      }
+    }
+  }
+
+  return {
+    title,
+    openGraphImage: {
+      images: openGraphImage ? [openGraphImage] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@nn_ktz2408',
+      title,
+      description,
+      image: openGraphImage,
+    },
+  }
+}
+
 const LeadMagnetPage = async ({ params }: LeadMagnetPageProps) => {
   const { username, leadMagnetSlug } = params
 
